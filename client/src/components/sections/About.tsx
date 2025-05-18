@@ -149,7 +149,7 @@ export default function About() {
               className="mt-8"
             >
               <a 
-                href="/public/resume.pdf"
+                href="/resume.pdf"
                 download="SamsonTejas_Resume.pdf"
                 className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors duration-200 gap-2"
                 target="_blank"

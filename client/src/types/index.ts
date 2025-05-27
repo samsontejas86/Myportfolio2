@@ -3,13 +3,14 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  category: 'web' | 'mobile' | 'ui';
+  category: 'web' | 'frontend' | 'backend';
   image: string;
   technologies: string[];
   demoLink?: string;
   sourceLink?: string;
   behanceLink?: string;
   caseStudyLink?: string;
+  achievements?: string;
 }
 
 // Skill types

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Project } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -6,91 +6,184 @@ import { ArrowRight, Link, Github, ExternalLink } from "lucide-react";
 import { SiBehance, SiDribbble } from "react-icons/si";
 import { cn } from "@/lib/utils";
 
+// Shuffle function
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 // Project data
 const projects: Project[] = [
   {
     id: 1,
-    title: "Expense Tracker",
-    description: "A full-stack expense tracking application built with React and Node.js.",
+    title: "Personal Portfolio 2.0",
+    description: "A modern, responsive portfolio website showcasing my projects and skills. Features include dark/light theme, smooth animations, responsive design, SEO optimization, and a fully functional contact form with form validation.",
+    category: "frontend",
+    image: "/images/personalportfolio.png",
+    technologies: [
+      "React 18",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Radix UI",
+      "React Hook Form",
+      "Zod",
+      "Vite"
+    ],
+    demoLink: "https://samsontejas.vercel.app",
+    sourceLink: "https://github.com/samsontejas86/myportfolio2"
+  },
+  {
+    id: 7,
+    title: "AR Science Lab",
+    description: "An immersive AR-based educational platform that won 1st place at Brainovision Hackathon. Features include virtual lab simulations and an AI chatbot for real-time query resolution, making science education more interactive and engaging.",
     category: "web",
-    image: "/images/expense-tracker.png",
-    technologies: ["React", "Node.js", "MongoDB", "Express"],
-    demoLink: "#",
-    sourceLink: "https://github.com/samsontejas86/Expense-Tracker"
+    image: "/images/AR.png",
+    technologies: [
+      "Unity 3D",
+      "C#",
+      "AR Foundation",
+      "AI/ML",
+      "Virtual Reality",
+      "3D Modeling"
+    ],
+    demoLink: "#",  // Add demo link if available
+    sourceLink: "#", // Add GitHub link if available
+    achievements: "1st Place - Brainovision Hackathon (Rs.7,000 prize)"
   },
   {
-    id: 2,
-    title: "Task Manager",
-    description: "A task management application with real-time updates and collaboration features.",
+    id: 8,
+    title: "EvaSafe - Women Safety Application",
+    description: "An innovative women safety application that combines IoT sensors with AI/ML for real-time safety monitoring. Features include AI-powered fight detection and distress recognition systems, providing immediate assistance in emergency situations.",
     category: "web",
-    image: "/images/task-manager.png",
-    technologies: ["React", "Firebase", "Material-UI"],
-    demoLink: "#",
-    sourceLink: "https://github.com/samsontejas86/Task-Manager"
+    image: "/images/evasafe.png",
+    technologies: [
+      "Python",
+      "TensorFlow",
+      "IoT Sensors",
+      "React Native",
+      "Cloud Services",
+      "Machine Learning",
+      "Real-time Processing"
+    ],
+    demoLink: "#",  // Add demo link if available
+    sourceLink: "#", // Add GitHub link if available
+    achievements: "1st Prize - Smart India Hackathon (Internal Round) 2024"
   },
   {
-    id: 3,
-    title: "Portfolio Website",
-    description: "My personal portfolio website built with React and Tailwind CSS.",
+    id: 9,
+    title: "Home360 - Home Services Platform",
+    description: "A modern home services platform with an intuitive user interface. Features include service category management, step-by-step booking process, testimonials, newsletter integration, and location-based service provider matching. Achieved 89% SEO score through optimized performance and accessibility.",
+    category: "frontend",
+    image: "/images/home360.png",
+    technologies: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "SEO Optimization",
+      "Responsive Design",
+      "Vercel Deployment"
+    ],
+    demoLink: "https://home360-bu99.vercel.app/",
+    sourceLink: "#", // Add GitHub link if available
+    achievements: "8th Place among 55 teams - Pivotial Soft Hackathon 2024"
+  },
+  {
+    id: 10,
+    title: "Customer Service Messaging Platform",
+    description: "A comprehensive web-based platform for streamlining customer support communication. Features include real-time message status updates, priority management system, advanced search functionality, and efficient message organization with filtering capabilities.",
     category: "web",
-    image: "/images/portfolio.png",
-    technologies: ["React", "Tailwind CSS", "Framer Motion"],
-    demoLink: "#",
-    sourceLink: "https://github.com/samsontejas86/Portfolio"
+    image: "/images/messagingapp.png",
+    technologies: [
+      "Python",
+      "Flask",
+      "SQLite",
+      "SQLAlchemy",
+      "JavaScript",
+      "WebSocket",
+      "HTML5",
+      "CSS3",
+      "Jinja2"
+    ],
+    demoLink: "#", // Placeholder for future deployment
+    sourceLink: "https://github.com/samsontejas86/Messaging-app",
+    achievements: "Implemented real-time updates and efficient message organization system"
   },
   {
-    id: 4,
-    title: "Chat Application",
-    description: "Real-time chat application with private messaging and group chat features.",
+    id: 11,
+    title: "School Management API",
+    description: "A comprehensive Node.js API service for managing school data with location-based sorting capabilities. Features include proximity-based school searching using Haversine formula, comprehensive data validation, and a database of 230+ schools across 10 major US cities.",
+    category: "backend",
+    image: "/images/schoolmanagement.png",
+    technologies: [
+      "Node.js",
+      "Express",
+      "MySQL",
+      "Railway",
+      "RESTful API",
+      "Postman",
+      "Haversine Algorithm",
+      "Environment Variables"
+    ],
+    demoLink: "https://web-production-33b1c.up.railway.app",
+    sourceLink: "https://github.com/samsontejas86/school-api-node",
+    achievements: "Successfully deployed on Railway with 230+ schools data across major US cities"
+  },
+  {
+    id: 12,
+    title: "CashCurve - Financial Management Application",
+    description: "An innovative full-stack expense management application featuring AI-driven financial recommendations and smart budgeting. Integrates blockchain technology for secure transactions and leverages machine learning for personalized financial insights.",
     category: "web",
-    image: "/images/chat-app.png",
-    technologies: ["React", "Socket.io", "Node.js", "MongoDB"],
-    demoLink: "#",
-    sourceLink: "https://github.com/samsontejas86/Chat-App"
-  },
-  {
-    id: 5,
-    title: "Fitness Tracker",
-    description: "A cross-platform mobile app for tracking workouts, nutrition, and progress. Includes data visualization, goal setting, and social sharing features.",
-    category: "mobile",
-    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    technologies: ["React Native", "Firebase", "Redux", "D3.js"],
-    demoLink: "#",
-    sourceLink: "#"
-  },
-  {
-    id: 6,
-    title: "Banking App UI",
-    description: "A complete UI/UX design for a mobile banking application. Features include account management, transaction history, budget planning, and financial insights.",
-    category: "ui",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80",
-    technologies: ["Adobe XD", "Illustrator", "Prototyping", "User Testing"],
-    caseStudyLink: "#",
-    behanceLink: "#"
+    image: "/images/cashcurve.jpg",
+    technologies: [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Python",
+      "AI/ML",
+      "Blockchain",
+      "RESTful API",
+      "Smart Contracts"
+    ],
+    demoLink: "#", // Under development
+    sourceLink: "#", // Under development
+    achievements: "Successfully implemented AI-driven financial recommendations and blockchain integration (Under Development)"
   }
 ];
 
 // Categories for filtering
 const categories = [
   { id: "all", label: "All" },
-  { id: "web", label: "Web Apps" },
-  { id: "mobile", label: "Mobile Apps" },
-  { id: "ui", label: "UI/UX Design" }
+  { id: "web", label: "Full Stack" },
+  { id: "frontend", label: "Frontend" },
+  { id: "backend", label: "Backend" }
 ];
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [shuffledProjects, setShuffledProjects] = useState<Project[]>([]);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   
+  // Initialize shuffled projects
+  useEffect(() => {
+    setShuffledProjects(shuffleArray(projects));
+  }, []);
+  
   // Filter projects based on active category
-  const filteredProjects = projects.filter(project => 
+  const filteredProjects = shuffledProjects.filter(project => 
     activeFilter === "all" || project.category === activeFilter
   );
   
   // Handle filter change
   const handleFilterChange = (category: string) => {
     setActiveFilter(category);
+    // Reshuffle projects when changing categories
+    setShuffledProjects(shuffleArray(projects));
   };
   
   return (
@@ -143,7 +236,13 @@ export default function Projects() {
               <img
                 src={project.image}
                 alt={project.title}
+                key={project.image}
                 className="w-full h-56 object-cover object-center"
+                onError={(e) => {
+                  console.error(`Error loading image: ${project.image}`);
+                  e.currentTarget.src = '/images/placeholder.png';
+                }}
+                loading="lazy"
               />
               <div className="p-6">
                 <div className="flex justify-between items-center mb-3">
@@ -151,19 +250,31 @@ export default function Projects() {
                   <span 
                     className={cn(
                       "text-xs font-medium px-2 py-1 rounded-full",
-                      project.category === "web" ? "bg-primary/10 text-primary dark:bg-primary/20" : 
-                      project.category === "mobile" ? "bg-secondary/10 text-secondary dark:bg-secondary/20" : 
-                      "bg-accent/10 text-accent dark:bg-accent/20"
+                      {
+                        "bg-primary/10 text-primary dark:bg-primary/20": project.category === "web",
+                        "bg-secondary/10 text-secondary dark:bg-secondary/20": project.category === "frontend",
+                        "bg-accent/10 text-accent dark:bg-accent/20": project.category === "backend"
+                      }
                     )}
                   >
-                    {project.category === "web" ? "Web App" : 
-                    project.category === "mobile" ? "Mobile App" : 
-                    "UI/UX Design"}
+                    {project.category === "web" ? "Full Stack" : 
+                     project.category === "frontend" ? "Frontend" : 
+                     "Backend"}
                   </span>
                 </div>
                 <p className="text-muted-foreground mb-4">
                   {project.description}
                 </p>
+                {project.achievements && (
+                  <div className="mb-4 text-sm">
+                    <span className="text-primary dark:text-primary font-semibold">
+                      🏆 Achievement:
+                    </span>
+                    <span className="ml-2 text-muted-foreground">
+                      {project.achievements}
+                    </span>
+                  </div>
+                )}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map(tech => (
                     <span 
@@ -183,7 +294,7 @@ export default function Projects() {
                       className="text-primary dark:text-primary hover:underline flex items-center gap-1"
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span>{project.category === "mobile" ? "App Store" : "Live Demo"}</span>
+                      <span>Live Demo</span>
                     </a>
                   )}
                   {project.sourceLink && (

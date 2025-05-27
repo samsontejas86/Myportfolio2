@@ -17,11 +17,11 @@ const skillCategories: SkillCategory[] = [
     icon: "code",
     colorClass: "primary",
     skills: [
-      { name: "HTML5 & CSS3", percentage: 90 },
-      { name: "JavaScript", percentage: 85 },
-      { name: "React.js", percentage: 85 },
-      { name: "Redux", percentage: 80 },
-      { name: "Material UI", percentage: 85 }
+      { name: "React & Next.js", percentage: 90 },
+      { name: "TypeScript", percentage: 85 },
+      { name: "Tailwind CSS", percentage: 90 },
+      { name: "Framer Motion", percentage: 85 },
+      { name: "UI/UX Design", percentage: 80 }
     ]
   },
   {
@@ -30,11 +30,11 @@ const skillCategories: SkillCategory[] = [
     icon: "server",
     colorClass: "secondary",
     skills: [
-      { name: "Node.js", percentage: 85 },
-      { name: "Express.js", percentage: 85 },
-      { name: "MongoDB", percentage: 80 },
-      { name: "RESTful APIs", percentage: 85 },
-      { name: "MySQL", percentage: 75 }
+      { name: "Node.js & Express", percentage: 85 },
+      { name: "Python & Flask", percentage: 80 },
+      { name: "MongoDB & MySQL", percentage: 85 },
+      { name: "RESTful APIs", percentage: 90 },
+      { name: "WebSocket", percentage: 80 }
     ]
   },
   {
@@ -44,23 +44,23 @@ const skillCategories: SkillCategory[] = [
     colorClass: "accent",
     skills: [
       { name: "Git & GitHub", percentage: 90 },
-      { name: "VS Code", percentage: 90 },
-      { name: "Postman", percentage: 85 },
-      { name: "AWS", percentage: 75 },
-      { name: "Docker", percentage: 70 }
+      { name: "Railway & Vercel", percentage: 85 },
+      { name: "Docker", percentage: 75 },
+      { name: "AWS Services", percentage: 75 },
+      { name: "CI/CD Pipelines", percentage: 80 }
     ]
   },
   {
     id: "other",
-    title: "Other Skills",
+    title: "Emerging Tech",
     icon: "paintbrush",
     colorClass: "secondary",
     skills: [
-      { name: "Problem Solving", percentage: 85 },
-      { name: "Team Collaboration", percentage: 90 },
-      { name: "Agile/Scrum", percentage: 80 },
-      { name: "CI/CD", percentage: 75 },
-      { name: "Testing", percentage: 75 }
+      { name: "AI/ML Integration", percentage: 80 },
+      { name: "AR/VR Development", percentage: 75 },
+      { name: "IoT & Sensors", percentage: 75 },
+      { name: "Blockchain", percentage: 70 },
+      { name: "System Design", percentage: 85 }
     ]
   }
 ];
